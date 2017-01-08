@@ -91,7 +91,7 @@ h1 {
 }
 
 /*responsive*/
-@media screen and (max-width: 480px) {
+@media only screen and (min-device-width : 375px) and (max-device-width : 667px) {
 	.header {
 	  	background-color: #ffffff;
 	  	color: #000000; 

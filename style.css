@@ -4,6 +4,10 @@ body {
 	padding: 0;
 }
 
+.content {
+	width:100%;
+}
+
 .header {
 	background-color: #ffffff;
 	width: 700px;
@@ -97,15 +101,14 @@ h1 {
 		height: auto;
 	  	background-color: #ffffff;
 	  	color: #000000; 
-	    width: 320px;
 	    padding: 10px;
 	    font-family: "Gotham", Sans-Serif;
 		font-weight: bold;
-		font-size: 18px;
+		font-size: 14px;
 	 }
 
 	.bg-1 {
-	   	width: 320px;
+	   	width: 100%;
 	    padding: 10px;
 	    color: #000000;
 	}
@@ -118,15 +121,13 @@ h1 {
 	}
 
 	.footer-content {
-		display: inline-block; 
 		text-align: center;
-		vertical-align: top;
 		font-size: 12px;
 	}
 
 	.footer-icons {
 		text-align: center;
-		letter-spacing: 10px;
+		letter-spacing: 5px;
 	}
 }
 

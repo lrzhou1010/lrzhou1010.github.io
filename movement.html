@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+body {
+    text-align: center;
+    background-color: #d8d8d8;
+}
+#canvas {
+    position: relative;
+    background-color: #bdc9ce;
+    margin: 1em auto;
+}
+.ball {
+    background-color: black;
+    position: absolute;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+h1 {
+	text-align: center;
+
+}
+
+p {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<h1>A modern love story</h1>
+<p>Use the arrow keys to move!</p>
+<div id="canvas"></div>
+<script type="text/javascript">
+var posx = 280;
+var posy = 180;
+var dx = 1;
+var dy = 1; 
+
+var rightPressed = false; 
+var leftPressed = false; 
+var upPressed = false; 
+var downPressed = false; 
+
+counter1 = 0; 
+counter2 = 0; 
+counter3 = 0; 
+counter4 = 0; 
+counter5 = 0; 
+counter6 = 0; 
+counter7 = 0; 
+counter8 = 0; 
+counter9 = 0; 
+counter10 = 0; 
+counter11 = 0; 
+counter12 = 0; 
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = true;
+        console.log('rightPressed set to true'); 
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = true;
+        console.log('leftPressed set to true'); 
+    }
+
+    else if(e.keyCode == 38) {
+        upPressed = true;
+        console.log('upPressed set to true'); 
+    }
+    else if(e.keyCode == 40) {
+        downPressed = true;
+        console.log('downPressed set to true'); 
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = false;
+        console.log('rightPressed set to false'); 
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = false;
+        console.log('leftPressed set to false'); 
+    }
+    else if(e.keyCode == 38) {
+        upPressed = false;
+        console.log('upPressed set to false'); 
+    }
+    else if(e.keyCode == 40) {
+        downPressed = false;
+        console.log('downPressed set to false'); 
+    }
+}
+
+var canvas = {
+    element: document.getElementById('canvas'),
+    width: 600,
+    height: 400,
+    initialize: function () {
+        this.element.style.width = this.width + 'px';
+        this.element.style.height = this.height + 'px';
+        document.body.appendChild(this.element);
+    }
+};
+
+var circle = {
+    create: function (color, dx, dy) {
+        var newCircle = Object.create(this);
+        newCircle.dx = dx;
+        newCircle.dy = dy;
+        newCircle.width = 40;
+        newCircle.height = 40;
+        newCircle.element = document.createElement('div');
+        newCircle.element.style.backgroundColor = color;
+        newCircle.element.style.width = newCircle.width + 'px';
+        newCircle.element.style.height = newCircle.height + 'px';
+        newCircle.element.className += ' ball';
+        newCircle.width = parseInt(newCircle.element.style.width);
+        newCircle.height = parseInt(newCircle.element.style.height);
+        canvas.element.appendChild(newCircle.element);
+        return newCircle;
+    },
+    moveTo: function (x, y) {
+        this.element.style.left = x + 'px';
+        this.element.style.top = y + 'px';
+    },
+    changeDirectionIfNecessary: function (x, y) {
+    	//detecting collisions with user
+        var cdx = x - posx; 
+        var cdy = y - posy; 
+        var distance = Math.sqrt(cdx * cdx + cdy * cdy);
+        //console.log('distance value: ' + distance);
+
+        if (x < 0 || x > canvas.width - this.width) {
+            this.dx = -this.dx;
+        }
+        else if (y < 0 || y > canvas.height - this.height) {
+            this.dy = -this.dy;
+        }
+
+        else if (distance < 50) {
+        	//console.log('entered collision detection condition'); 
+        	//console.log('distance value ' + distance);
+        	this.dx = -this.dx;
+        	this.dy = -this.dy; 
+
+        	counter1 += 1; 
+			counter2 += 1; 
+			counter3 += 1; 
+			counter4 += 1; 
+			counter5 += 1; 
+			counter6 += 1; 
+			counter7 += 1; 
+			counter8 += 1; 
+			counter9 += 1; 
+			counter10 += 1; 
+			counter11 += 1; 
+			counter12 += 1; 
+        }
+
+    },
+    disappear: function () {
+		if (counter1 == 4) {
+			console.log('ball 1 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter1 = 0; 
+		} 
+		else if (counter2 == 4) {
+			console.log('ball 2 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter2 = 0; 
+		} 
+		else if (counter3 == 4) {
+			console.log('ball3 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter3 = 0; 
+		} 
+		else if (counter4 == 4) {
+			console.log('ball4 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter4 = 0; 
+		} 
+		else if (counter5 == 4) {
+			console.log('ball5 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter5 = 0; 
+		} 
+		else if (counter6 == 4) {
+			console.log('ball6 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter6 = 0;  
+		} 
+		else if (counter7 == 4) {
+			console.log('ball7 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter7 = 0; 
+		} 
+		else if (counter8 == 4) {
+			console.log('ball8 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter8 = 0; 
+		} 
+		else if (counter9 == 4) {
+			console.log('bal9 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter9 = 0; 
+		} 
+		else if (counter10 == 4) {
+			console.log('ball0 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter10 = 0; 
+		} 
+		else if (counter11 == 4) {
+			console.log('ball1 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter11 = 0; 
+		} 
+		else if (counter12 == 4) {
+			console.log('ball12 disappeared'); 
+			this.element.style.backgroundColor = "black";
+			counter12 = 0; 
+		} 
+    }, 
+    draw: function (x, y) {
+        this.moveTo(x, y);
+        var ball = this;
+        setTimeout(function () {
+            ball.changeDirectionIfNecessary(x, y);
+            //ball.disappear(); 
+            ball.draw(x + ball.dx, y + ball.dy);
+        }, 1000 / 90);
+    }
+};
+
+var user = {
+	create: function (color, x, y) {
+		var newUser = Object.create(this); 
+		newUser.width = 40; 
+		newUser.height = 40;
+		newUser.element = document.createElement('div'); 
+		newUser.element.style.backgroundColor = color; 
+		newUser.element.style.width = newUser.width + 'px';
+        newUser.element.style.height = newUser.height + 'px';
+        newUser.element.className += ' ball';
+        newUser.element.style.left = x + 'px'; 
+        newUser.element.style.top = y + 'px'; 
+        newUser.width = parseInt(newUser.element.style.width);
+        newUser.height = parseInt(newUser.element.style.height);
+        canvas.element.appendChild(newUser.element);
+        return newUser;
+	},
+	moveTo: function (x, y) {
+        this.element.style.left = x + 'px';
+        this.element.style.top = y + 'px';
+    },
+	moveUp: function (){
+		if (posy > 0 || posy < canvas.height - this.height) {
+			console.log('entered moveUp function'); 
+            posy -= dy; 
+        }
+        else {
+        	posy += 0; 
+        }
+	},
+	moveDown: function (){
+		console.log('entered moveDown function'); 
+		if (posy >= 0 || posy <= canvas.height - this.height) {
+            posy += dy; 
+        }
+        else {
+        	posy += 0; 
+        }
+	},
+	moveLeft: function (){
+		console.log('entered moveLeft function'); 
+		if (posx > 0 || posx < canvas.width - this.width) {
+            posx -= dx; 
+        }
+	},
+
+	moveRight: function (){
+		console.log('entered moveRight function');
+		if (posx > 0 || posx < canvas.width - this.width) {
+            posx += dx; 
+        }
+	},
+	draw: function (x, y) {
+        this.moveTo(x, y);
+        var ball = this;
+        setTimeout(function () {
+            //ball.changeDirectionIfNecessary(x, y);
+            //keyboard control logic
+			if (rightPressed) {
+				console.log('right key pressed'); 
+				ball.moveRight(); 
+			}
+
+			else if (leftPressed) {
+				console.log('left key pressed'); 
+				ball.moveLeft(); 
+			}
+
+			else if (upPressed) {
+				console.log('up key pressed'); 
+				ball.moveUp(); 
+			}
+
+			else if (downPressed) {
+				console.log('down key pressed'); 
+				ball.moveDown(); 
+			}
+            ball.draw(posx, posy);
+        }, 1000 / 60);
+    }
+};
+
+canvas.initialize();
+var ball1 = circle.create("blue", 4, 3);
+var ball2 = circle.create("red", 1, 5);
+var ball3 = circle.create("green", 2, 2);
+var ball4 = circle.create("yellow", 3, 4); 
+var ball5 = circle.create("purple", 4, 4); 
+var ball6 = circle.create("orange", 2, 3); 
+var ball7 = circle.create("blue", 4, 3);
+var ball8 = circle.create("red", 1, 5);
+var ball9 = circle.create("green", 2, 2);
+var ball10 = circle.create("yellow", 3, 4); 
+var ball11 = circle.create("purple", 4, 4); 
+var ball12 = circle.create("orange", 2, 3); 
+var user = user.create("black", posx, posy); 
+ball1.draw(70, 0);
+ball2.draw(20, 200);
+ball3.draw(300, 330);
+ball4.draw(200, 200); 
+ball5.draw(400, 300);
+ball6.draw(300, 100); 
+user.draw(200, 200); 
+ball7.draw(300, 50);
+ball8.draw(200, 170);
+ball9.draw(310, 230);
+ball10.draw(70, 100); 
+ball11.draw(200, 150);
+ball12.draw(80, 90);
+
+if (counter1 == 1) {
+	console.log('end ball1 disappear code'); 
+	ball1.disappear(); 
+}
+</script>
+</body>
+</html> 

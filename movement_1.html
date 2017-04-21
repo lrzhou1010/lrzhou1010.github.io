@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Part 1: A Modern Love Story</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <style>
+    	body {
+    		text-align: center;
+    		background-color: #d8d8d8;
+    	}
+
+    	* { padding: 0; margin: 0; }
+
+    	#canvas_div {
+    		position: static;
+    	}
+
+    	canvas {
+		    background-color: #bdc9ce;
+		    margin: 1em auto;
+		}
+
+		h1 {
+			padding:20px;
+			text-align: center;
+
+		}
+
+		h3 {
+			text-align: center;
+			font-weight: lighter;
+		}
+
+		#subheader {
+			padding:10px;
+			text-align: center;
+		}
+
+		#body1 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 300px;
+			text-align: left;
+		}
+
+		#body2 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 300px;
+			text-align: left;
+			top: 400px;
+		}
+
+		#body3 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 400px;
+			text-align: center;
+			top: 550px;
+			left: 400px;
+			font-size: 26px;
+			font-weight: lighter;
+		}
+
+		#body4 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 100px;
+			text-align: left;
+			left: 850px;
+			top: 600px;
+			font-size: 14px;
+		}
+
+		#body5 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 150px;
+			text-align: left;
+			left: 1020px;
+			font-size: 22px;
+		}
+
+		#body6 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 300px;
+			text-align: left;
+			left: 1020px;
+			top: 220px;
+		}
+
+		#body7 {
+			position: absolute;
+			padding: 50px; 
+			color: #ffffff;
+			display:none;
+			width: 360px;
+			text-align: right;
+			left: 1010px;
+			top: 680px;
+			font-size: 30px;
+		}
+
+		p {
+			font-size: 20px;
+			font-weight:lighter;
+		}
+    </style>
+</head>
+<body>
+<h1 id="header">Part 1: A Modern Love Story</h1>
+<h3 id="subheader">Use the arrow keys to move!</h3>
+<div id="canvas_div"><canvas id="myCanvas" width="800" height="500"></canvas></div>
+<div id="body1"><p>The purpose of this game is to simulate and deconstruct modern hook up culture into simple moving parts existing within a larger system of societal pressure, expectations, and ultimately patriarchy. The abstraction present in this game is meant to emphasize the movement of colliding bodies past one another, against each other in our search for meaningful connection.</p></div>
+
+<div id="body2"><p>You, the user, are represented by a black circle. As you brush up against the other circles which have been instantiated with varying speeds, you start to realize that most collisions result in deflections. This is intended to represent the missed connections--the person you worked with on a group project together but never had a substantive conversation, the stranger you met at a party whom you never saw again, a friend who never became something more because you both feared the consequences, and of course, the archetypal unrequited love who broke your heart.</p></div>
+
+<div id="body3">Occassionally, however, you trap another circle within your orbit. Or maybe another circle traps you. Glitch happens. The plot thickens</div>
+
+<div id="body4">All interaction comes with a cost. But you are willing, if not eager, to concede your own space.</div>
+
+<div id="body5">The question is not if and when, but how much.</div>
+
+<div id="body6"><p>Complicity implies the action of more than one party. When you meet someone for the first time, you are complicit in that interaction. When you engage in conversation, you are complicit in that interaction. When you sleep with someone, you are complicit in that interaction. We as human beings are complicit for life and no amount of hand-waving or eye closing or the denial of power and responsibility will change the reality that within this system, some will take and some will be taken. Taken for bodies. Taken for parts. Taken for services rendered, a spectacle walking across marble stages.</p></div>
+
+<div id="body7">What a perfect recipe for trauma.</div>
+
+<script>
+	var animate = window.requestAnimationFrame ||
+ 	window.webkitRequestAnimationFrame ||
+  	window.mozRequestAnimationFrame ||
+  	function(callback) { window.setTimeout(callback, 1000/60) }; //basically like setTimeOut or setInterval 
+
+	var canvas = document.getElementById("myCanvas");
+	var ctx = canvas.getContext("2d"); 
+
+	//after 10 seconds have lapsed
+	window.setTimeout(body1_fadein, 10000); 
+	window.setTimeout(body2_fadein, 20000); 
+	window.setTimeout(body3_fadein, 30000); 
+	window.setTimeout(body4_fadein, 40000); 
+	window.setTimeout(body5_fadein, 50000); 
+	window.setTimeout(body6_fadein, 60000); 
+	window.setTimeout(body7_fadein, 70000); 
+
+
+	function body1_fadein() {
+		$("#body1").fadeIn(3000);
+	}
+
+	function body2_fadein() {
+		$("#body2").fadeIn(3000);
+	}
+
+	function body3_fadein() {
+		$("#body3").fadeIn(3000);
+	}
+
+	function body4_fadein() {
+		$("#body4").fadeIn(3000);
+	}
+
+	function body5_fadein() {
+		$("#body5").fadeIn(3000);
+	}
+
+	function body6_fadein() {
+		$("#body6").fadeIn(3000);
+	}
+
+	function body7_fadein() {
+		$("#body7").fadeIn(3000);
+	}
+
+	function Ball(x, y, color, dx, dy) { //pass in starting x and y coordinates
+		this.x = x; 
+		this.y = y; 
+		this.color = color; 
+		this.radius = 27;  
+		this.dx = dx; 
+		this.dy = dy; 
+		this.player = 0; 
+		//this.counter = 0; //for keeping track of collisions 
+		this.border = 0; //whether or not it is "stuck" on border and needs to be cleared later 
+	}
+
+	Ball.prototype.render = function() {
+		//console.log('rendering Ball'); 
+		//x coordinate boundary checking
+		/*if (this.x < this.radius || this.x > canvas.width - this.radius) {
+			console.log('before flagging: boundary checking satisfied'); 
+			ctx.beginPath(); 
+			ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+			ctx.fillStyle = "black"; //testing 
+			ctx.fill(); 
+		}
+
+		//y coordinate boundary checking
+		else if (this.y < this.radius || this.y > canvas.height - this.radius) {
+			console.log('before flagging: boundary checking satisfied'); 
+			ctx.beginPath(); 
+			ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+			ctx.fillStyle = this.color; 
+			ctx.fill(); 
+		}*/
+
+		if (this.border == 0) {
+			ctx.beginPath(); 
+			ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+			ctx.fillStyle = this.color; 
+			ctx.fill(); 	
+		}
+	}
+
+	function Player() {
+		this.ball = new Ball(canvas.width/2, canvas.height/2, 'black', 2, 2); 
+		this.ball.player = 1;
+	}
+
+	function Computer(x, y, color, dx, dy) {
+		this.ball = new Ball(x, y, color, dx, dy); 
+	}
+
+	Computer.prototype.update = function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		//bouncing off canvas walls
+		if (this.ball.x + this.ball.dx > canvas.width-this.ball.radius || this.ball.x + this.ball.dx < this.ball.radius) {
+	        this.ball.dx = -1 * this.ball.dx;
+	    }
+
+	    else if(this.ball.y + this.ball.dy > canvas.height-this.ball.radius || this.ball.y + this.ball.dy < this.ball.radius) {
+	        this.ball.dy = -1 * this.ball.dy;
+	    }
+
+	    else {
+			this.ball.x += this.ball.dx; 
+			this.ball.y += this.ball.dy; 
+		}
+
+	}
+
+	Computer.prototype.collision = function() {
+		//player_x is x center
+		//player_y is y center 
+
+		//lmao if i ever feel like properly implementing collisions...
+		/*var player_left = player_x - this.ball.radius; 
+		var player_right = player_x + this.ball.radius; 
+		var player_top = player_y - this.ball.radius; 
+		var player_bottom = player_y + this.ball.radius;*/ 
+
+		var cdx = this.ball.x - player_x; 
+        var cdy = this.ball.y - player_y; 
+        var distance = Math.sqrt(cdx * cdx + cdy * cdy);
+
+		if (distance < 50) {
+        	this.ball.dx = -1 * this.ball.dx;
+        	this.ball.dy = -1 * this.ball.dy; 
+        	player.smaller(); 
+
+        	if (this.ball.radius <= 49) {
+				this.ball.radius += .05; 
+			}
+        }
+	}
+
+	Player.prototype.smaller = function() {
+		console.log('ball radius: ' + this.ball.radius); 
+		if (this.ball.radius < 10) {
+			canvas.style.backgroundColor = "#181818";
+			this.ball.color = "white"; 
+			document.body.style.background = "#000000"; 
+			document.getElementById("header").style.color = "white"; 
+			document.getElementById("subheader").style.color = "white"; 
+
+		}
+
+		if (this.ball.radius > 10) {
+			this.ball.radius-=.05; 
+		}
+	}
+
+	Player.prototype.render = function() {
+		this.ball.render(); 
+	}
+
+	Computer.prototype.render = function() {
+		this.ball.render(); 
+	}
+
+	//building player ball and computer balls
+	var player = new Player();
+	var player_x;
+	var player_y;
+
+	var comps = []; 
+	for (c=0; c<3; c++) {
+		comps[c] = []; 
+		for (r=0; r<4; r++) {
+			var comp_x = (c*(27*2+20))+ 50;
+			var comp_y = (r*(27*2+20))+ 50;
+			var comp_dx;
+			var comp_dy; 
+
+			if (r < 2 && c == 0) {
+				comp_dx = Math.floor(Math.random() * 5);
+				comp_dy = Math.floor(Math.random() * 9);
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				//console.log('rendering yellow comp'); 
+				comps[c][r] = new Computer(comp_x, comp_y, 'yellow', comp_dx, comp_dy); 
+			}
+
+			else if (r >= 2 && c == 0) {
+				comp_dx = Math.floor(Math.random() * 8);
+				comp_dy = Math.floor(Math.random() * 10);
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				//console.log('rendering blue'); 
+				comps[c][r] = new Computer(comp_x, comp_y, 'blue', comp_dx, comp_dy); 
+			}
+
+			else if (r < 2 && c == 1) {
+				comp_dx = Math.floor(Math.random() * 7);
+				comp_dy = Math.floor(Math.random() * 5);
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				//console.log('rendering green comp'); 
+				comps[c][r] = new Computer(comp_x, comp_y, 'green', comp_dx, comp_dy); 	
+			}
+
+			else if (r >= 2 && c == 1) {
+				comp_dx = Math.floor(Math.random() * 6);
+				comp_dy = Math.floor(Math.random() * 9);
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				//console.log('rendering pink'); 
+				comps[c][r] = new Computer(comp_x, comp_y, 'pink', comp_dx, comp_dy); 
+			}
+
+			else if (r < 2 && c == 2) {
+				comp_dx = Math.floor(Math.random() * 6);
+				comp_dy = Math.floor(Math.random() * 6);
+				//console.log('rendering orange'); 
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				comps[c][r] = new Computer(comp_x, comp_y, 'orange', comp_dx, comp_dy); 
+			}
+
+			else if (r >= 2 && c == 2) {
+				comp_dx = Math.floor(Math.random() * 9);
+				comp_dy = Math.floor(Math.random() * 7);
+				//console.log('rendering purple'); 
+
+				//make sure no inert comp balls
+				if (comp_dx == 0 && comp_dy == 0) {
+					comp_dx = 2; 
+					comp_dy = 2; 
+				}
+
+				comps[c][r] = new Computer(comp_x, comp_y, 'purple', comp_dx, comp_dy); 
+			}
+		}
+	}
+
+	//keyboard handling logic
+	var rightPressed = false; 
+	var leftPressed = false; 
+	var upPressed = false; 
+	var downPressed = false; 
+	document.addEventListener("keydown", keyDownHandler, false);
+	document.addEventListener("keyup", keyUpHandler, false);
+
+	function keyDownHandler(e) {
+	    if(e.keyCode == 39) {
+	        rightPressed = true;
+	        //console.log('rightPressed set to true'); 
+	    }
+	    else if(e.keyCode == 37) {
+	        leftPressed = true;
+	        //console.log('leftPressed set to true'); 
+	    }
+
+	    else if(e.keyCode == 38) {
+	        upPressed = true;
+	        //console.log('upPressed set to true'); 
+	    }
+	    else if(e.keyCode == 40) {
+	        downPressed = true;
+	        //console.log('downPressed set to true'); 
+	    }
+	}
+
+	function keyUpHandler(e) {
+	    if(e.keyCode == 39) {
+	        rightPressed = false;
+	        //console.log('rightPressed set to false'); 
+	    }
+	    else if(e.keyCode == 37) {
+	        leftPressed = false;
+	        //console.log('leftPressed set to false'); 
+	    }
+	    else if(e.keyCode == 38) {
+	        upPressed = false;
+	        //console.log('upPressed set to false'); 
+	    }
+	    else if(e.keyCode == 40) {
+	        downPressed = false;
+	        //console.log('downPressed set to false'); 
+	    }
+	}
+
+	//functions for moving user via keyboard input
+	Player.prototype.moveUp = function() {
+		//console.log('entered moveUp function'); 
+        if (upPressed && this.ball.y > this.ball.radius + 2) {
+        	//console.log('ball y: ' + this.ball.y); 
+        	this.ball.y-=2; 
+        }
+	}
+
+	Player.prototype.moveDown = function() {
+		//console.log('entered moveDown function'); 
+        if (downPressed && this.ball.y < canvas.height - this.ball.radius - 2) {
+        	//console.log('ball y: ' + this.ball.y); 
+        	this.ball.y+=2; 
+        }
+	}
+
+	Player.prototype.moveLeft = function() {
+		//console.log('entered moveLeft function'); 
+		if (leftPressed && this.ball.x > this.ball.radius + 2) {
+			//console.log('ball x: ' + this.ball.x); 
+            this.ball.x -= 2; 
+        }
+	}
+
+	Player.prototype.moveRight= function(){
+		//console.log('entered moveRight function');
+		if (rightPressed && this.ball.x < canvas.width - this.ball.radius - 2) {
+			//console.log('ball x: ' + this.ball.x); 
+            this.ball.x += 2; 
+        }
+	}
+
+	var update = function() {
+		//updating computer balls
+		for (c=0; c<3; c++) {
+			for (r=0; r<4; r++) {
+				var computer = comps[c][r]; 
+				computer.update(); 
+				computer.collision(); 
+			}
+		}  
+
+		//updating player ball
+		if (upPressed) {
+			player.moveUp(); 
+		}
+
+		else if (downPressed) {
+			player.moveDown(); 
+		}
+		
+		else if (rightPressed) {
+			player.moveRight(); 
+		}
+		
+		else if (leftPressed) {
+			player.moveLeft(); 
+		}
+
+		player_x = player.ball.x; 
+		player_y = player.ball.y; 
+		//console.log('player_x: ' + player.ball.x); 
+		//console.log('player_y: ' + player.ball.y); 
+	};
+
+	var render = function() {
+		player.render(); 
+		//computer.render(); 
+		for (c=0; c<3; c++) {
+			for (r=0; r<4; r++) {
+				var computer = comps[c][r]; 
+				computer.render(); 
+			}
+		} 
+	};
+
+	shrink = window.setInterval(shrinkCanvas, 10000);
+
+	//function that shrinks canvas every 10 seconds 
+	function shrinkCanvas() {
+		console.log('shrinkCanvas called'); 
+
+		//check for dots "stuck" on canvas border 
+		//iterate through comps[] 
+		for (c=0; c<3; c++) {
+			for (r=0; r<4; r++) {
+				//dummy variable computer 
+				var computer = comps[c][r];
+
+				//x coordinate boundary checking for comp
+				if (computer.ball.x < computer.ball.radius || computer.ball.x > canvas.width - computer.ball.radius) {
+					console.log('comp boundary checking satisfied'); 
+					//flagged
+					computer.ball.border = 1; 
+				}
+
+				//y coordinate boundary checking for comp
+				else if (computer.ball.y < computer.ball.radius || computer.ball.y > canvas.height - computer.ball.radius) {
+					console.log('comp boundary checking satisfied'); 
+					//flagged
+					computer.ball.border = 1;
+				}
+
+				if (player.ball.x < player.ball.radius || player.ball.x > canvas.width - player.ball.radius) {
+					console.log('player boundary checking satisfied'); 
+					player.ball.radius += 1; 
+					
+				}
+
+				//y coordinate boundary checking for comp
+				else if (player.ball.y < player.ball.radius || player.ball.y > canvas.height - player.ball.radius) {
+					console.log('player boundary checking satisfied'); 
+					player.ball.radius += 1; 
+					
+				}
+			}
+		} 
+
+		if (canvas.width <= 300 || canvas.height <= 200) {
+			console.log('clearTimeOut called'); 
+			clearInterval(shrink); 
+		}
+		else {
+			canvas.width -= 50; 
+			canvas.height -= 20; 
+		}
+	}
+
+	//updates objects, renders them (graphically), and calls requestAnimationFrame
+	var step = function() {
+  		update();
+  		render();
+  		animate(step);
+	};
+
+	//when window loads, execute 
+	window.onload = function() {
+	  	document.body.appendChild(canvas); //append canvas onto window 
+	  	animate(step);
+	};
+	
+
+</script>
+
+</body>
+</html>
